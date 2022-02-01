@@ -10,12 +10,11 @@ export const Layout: FC = ({ children }) => {
         <div className='text-white text-3xl py-2 font-bold'>exe-rec</div>
       </header>
       <main>{children}</main>
-      <div className='text-center absolute bottom-2 left-0 w-full'>
+      <div className='text-center fixed bottom-0 z-50 left-0 w-full bg-white/75 backdrop-blur'>
         <Button.Group color='error' bordered>
-          <Button onClick={() => router.push('/')}>🏠</Button>
-          <Button onClick={() => router.push('/templates')}>📑</Button>
-          <Button onClick={() => router.push('/calendar')}>📅</Button>
-          <Button onClick={() => router.push('/setting')}>⚙️</Button>
+          <Button onClick={() => router.push('/')}>Home</Button>
+          <Button onClick={() => router.push('/calendar')}>Calendar</Button>
+          <Button onClick={() => router.push('/setting')}>Setting</Button>
         </Button.Group>
       </div>
     </div>

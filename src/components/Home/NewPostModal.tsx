@@ -1,20 +1,27 @@
 import { Button, Modal, Text, Textarea } from '@nextui-org/react';
+import { useEffect } from 'react';
 import { useMemo } from 'react';
-import { ChangeEvent, useState, VFC } from 'react';
+import { useState, VFC } from 'react';
 
-type CreateTemplateModalProps = {
+type NewPostModalProps = {
+  value?: string;
   open: boolean;
   closeHandler: () => void;
 };
 
-export const CreateTemplateModal: VFC<CreateTemplateModalProps> = ({
+export const NewPostModal: VFC<NewPostModalProps> = ({
+  value = '',
   open,
   closeHandler,
 }) => {
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState(value);
   const isValidate = useMemo(() => {
     if (!inputText) return true;
   }, [inputText]);
+
+  useEffect(() => {
+    setInputText(value);
+  }, [value]);
 
   /* 送信 */
   const submit = async () => {
@@ -34,15 +41,16 @@ export const CreateTemplateModal: VFC<CreateTemplateModalProps> = ({
   };
 
   return (
-    <Modal closeButton blur open={open} onClose={close}>
+    <Modal closeButton blur className='m-5' open={open} onClose={close}>
       <Modal.Header>
         <Text b h3 size={18}>
-          新しいTemplateを登録
+          どんなExerciseをしましたか？
         </Text>
       </Modal.Header>
       <Modal.Body>
         <Textarea
-          placeholder='投稿内容を入力'
+          value={inputText}
+          placeholder={`腕立て30回\n腹筋30回\n背筋20回\n3セット`}
           minRows={4}
           maxRows={10}
           onChange={(e): void => {
@@ -51,11 +59,13 @@ export const CreateTemplateModal: VFC<CreateTemplateModalProps> = ({
         />
       </Modal.Body>
       <Modal.Footer>
+        <Button.Group color='success' disabled={isValidate}>
+          <Button>LINE</Button>
+          <Button>Twitter</Button>
+          <Button>Copy</Button>
+        </Button.Group>
         <Button auto flat color='error' onClick={close}>
           Cancel
-        </Button>
-        <Button auto color='success' onClick={submit} disabled={isValidate}>
-          Submit
         </Button>
       </Modal.Footer>
     </Modal>

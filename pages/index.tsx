@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
+import { HomePage } from 'src/components/Home';
 
 const Home: NextPage = () => {
   return (
     <div>
-      <h2>HOME</h2>
+      <HomePage />
     </div>
   );
 };

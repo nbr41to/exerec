@@ -13,7 +13,9 @@ export const achievementsState = atom<Achievement[]>({
 });
 
 /* Formの状態 */
-export const newPostContentState = atom<Omit<Achievement, 'id' | 'date'>>({
+export const newPostContentState = atom<
+  Omit<Achievement, 'id' | 'userId' | 'date'>
+>({
   key: 'newPostContentState',
   default: {
     content: '',

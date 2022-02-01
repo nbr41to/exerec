@@ -9,7 +9,7 @@
 - LINE に投稿
 - Twitter に投稿
 
-## Dependenceses
+## Dependencies
 
 - next.js
 - next UI
@@ -21,3 +21,9 @@
 ## 作成記録
 
 `yarn create next-app --typescript exerec`
+
+`cd exerec`
+
+`yarn add recoil @nextui-org/react`
+
+`yarn add -D tailwindcss postcss autoprefixer`

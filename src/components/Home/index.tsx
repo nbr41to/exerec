@@ -48,10 +48,10 @@ export const HomePage: VFC = () => {
           </Button>
         </div>
 
-        <div className='h-px mx-4 my-10 bg-black/30' />
+        <div className='h-px mx-8 my-10 bg-black/30' />
 
         {/* Template一覧 */}
-        <div className='text-center mt-3'>
+        <div className='text-center'>
           <Text h2 b>
             My Templates
           </Text>
@@ -107,10 +107,10 @@ export const HomePage: VFC = () => {
           </Button>
         </div>
 
-        <div className='h-px my-10 bg-black/30' />
+        <div className='h-px mx-8 my-10 bg-black/30' />
 
         {/* 達成履歴10件 */}
-        <div className='text-center mt-3'>
+        <div className='text-center'>
           <Text h2 b>
             My Histories
           </Text>
@@ -122,6 +122,7 @@ export const HomePage: VFC = () => {
                 bordered
                 key={achievement.id}
                 title={<p className='whitespace-pre'>{achievement.content}</p>}
+                subtitle={achievement.date}
               >
                 <div className='flex justify-center items-center gap-2'>
                   <Button

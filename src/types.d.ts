@@ -6,6 +6,7 @@ type Template = {
 
 type Achievement = {
   id: string;
+  userId: string;
   content: string;
   achievementRate: number; // 達成度0-4
   satisfactionLevel: number; // 満足度0-4

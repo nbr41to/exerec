@@ -6,7 +6,7 @@ export const Layout: FC = ({ children }) => {
   const router = useRouter();
   return (
     <div className='min-h-screen'>
-      <header className='w-full bg-rose-500 text-center'>
+      <header className='w-full bg-rose-600 text-center'>
         <div className='text-white text-3xl py-2 font-bold'>exe-rec</div>
       </header>
       <main>{children}</main>

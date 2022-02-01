@@ -1,23 +1,31 @@
-import { Button, Card, Text } from '@nextui-org/react';
+import { Button, Card, Collapse, Text } from '@nextui-org/react';
 import { useState, VFC } from 'react';
 import { TemplateFormModal } from './TemplateFormModal';
 import { NewPostModal } from './NewPostModal';
+import { useTemplates } from 'src/utils/hooks/useTemplates';
+import { useSetRecoilState } from 'recoil';
+import {
+  newPostContentState,
+  templateFormContentState,
+} from 'src/utils/recoil/atoms';
+import { useAchievementsHistories } from 'src/utils/hooks/useAchievementsHistories';
 
 export const HomePage: VFC = () => {
   const [visibleNewPostModal, setVisibleNewPostModal] = useState(false);
   const [visibleCreateTemplateModal, setVisibleCreateTemplateModal] =
     useState(false);
-  const [postContent, setPostContent] = useState('');
+  const { templates } = useTemplates();
+  const { achievements } = useAchievementsHistories();
+  const setNewPostState = useSetRecoilState(newPostContentState);
+  const setTemplateFormState = useSetRecoilState(templateFormContentState);
+
+  console.log('templates', templates);
 
   return (
     <>
       <NewPostModal
-        value={postContent}
         open={visibleNewPostModal}
-        closeHandler={() => {
-          setPostContent('');
-          setVisibleNewPostModal(false);
-        }}
+        closeHandler={() => setVisibleNewPostModal(false)}
       />
       <TemplateFormModal
         open={visibleCreateTemplateModal}
@@ -40,7 +48,7 @@ export const HomePage: VFC = () => {
           </Button>
         </div>
 
-        <div className='h-px mx-4 bg-black/30' />
+        <div className='h-px mx-4 my-10 bg-black/30' />
 
         {/* Template一覧 */}
         <div className='text-center mt-3'>
@@ -49,18 +57,21 @@ export const HomePage: VFC = () => {
           </Text>
         </div>
         <div className='p-4 space-y-3'>
-          <Card bordered shadow={false}>
-            <div className='flex justify-between'>
-              <div>
-                <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-              </div>
-              <div className='flex justify-center items-center flex-col gap-2'>
+          {templates.map((template) => (
+            <Collapse
+              bordered
+              key={template.id}
+              title={<p className='whitespace-pre'>{template.content}</p>}
+            >
+              <div className='flex justify-center items-center gap-2'>
                 <Button
-                  rounded
                   color='gradient'
-                  size='xs'
+                  size='sm'
                   onClick={() => {
-                    setPostContent(`腕立て30回\n腕立て30回\n腕立て30回\n`);
+                    setNewPostState((prev) => ({
+                      ...prev,
+                      content: template.content,
+                    }));
                     setVisibleNewPostModal(true);
                   }}
                 >
@@ -68,26 +79,24 @@ export const HomePage: VFC = () => {
                 </Button>
                 <Button
                   bordered
-                  rounded
-                  color='gradient'
-                  size='xs'
+                  color='primary'
+                  size='sm'
                   onClick={() => {
-                    setPostContent(`腕立て30回\n腕立て30回\n腕立て30回\n`);
-                    setVisibleNewPostModal(true);
+                    setTemplateFormState((prev) => ({
+                      ...prev,
+                      id: template.id,
+                      content: template.content,
+                    }));
+                    setVisibleCreateTemplateModal(true);
                   }}
                 >
                   edit
                 </Button>
               </div>
-            </div>
-          </Card>
-          <Card bordered shadow={false} hoverable>
-            <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-          </Card>
-          <Card bordered shadow={false} hoverable>
-            <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-          </Card>
+            </Collapse>
+          ))}
         </div>
+
         {/* Templateの新規作成ボタン */}
         <div className='flex justify-center items-center py-3'>
           <Button
@@ -98,35 +107,55 @@ export const HomePage: VFC = () => {
           </Button>
         </div>
 
-        <div className='h-px mx-4 bg-black/30' />
+        <div className='h-px my-10 bg-black/30' />
 
+        {/* 達成履歴10件 */}
         <div className='text-center mt-3'>
           <Text h2 b>
             My Histories
           </Text>
         </div>
         <div className='p-4 space-y-3'>
-          <Card bordered shadow={false}>
-            <div className='flex justify-between'>
-              <div>
-                <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-              </div>
-              <div className='flex justify-center items-center flex-col gap-2'>
-                <Button color='gradient' size='xs' onClick={() => {}}>
-                  add
-                </Button>
-              </div>
-            </div>
-          </Card>
-          <Card bordered shadow={false} hoverable>
-            <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-          </Card>
-          <Card bordered shadow={false} hoverable>
-            <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-          </Card>
-          <Card bordered shadow={false} hoverable>
-            <p className='whitespace-pre'>{`腕立て30回\n腕立て30回\n腕立て30回\n`}</p>
-          </Card>
+          <div className='p-4 space-y-3'>
+            {achievements.map((achievement) => (
+              <Collapse
+                bordered
+                key={achievement.id}
+                title={<p className='whitespace-pre'>{achievement.content}</p>}
+              >
+                <div className='flex justify-center items-center gap-2'>
+                  <Button
+                    color='gradient'
+                    size='sm'
+                    onClick={() => {
+                      setNewPostState((prev) => ({
+                        ...prev,
+                        content: achievement.content,
+                      }));
+                      setVisibleNewPostModal(true);
+                    }}
+                  >
+                    done
+                  </Button>
+                  <Button
+                    bordered
+                    color='primary'
+                    size='sm'
+                    onClick={() => {
+                      setTemplateFormState((prev) => ({
+                        ...prev,
+                        id: achievement.id,
+                        content: achievement.content,
+                      }));
+                      setVisibleCreateTemplateModal(true);
+                    }}
+                  >
+                    add template
+                  </Button>
+                </div>
+              </Collapse>
+            ))}
+          </div>
         </div>
       </div>
     </>

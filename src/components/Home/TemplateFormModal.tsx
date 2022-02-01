@@ -1,39 +1,40 @@
 import { Button, Modal, Text, Textarea } from '@nextui-org/react';
 import { useEffect, useMemo } from 'react';
-import { useState, VFC } from 'react';
+import { VFC } from 'react';
+import { useRecoilState } from 'recoil';
+import { createTemplate, updateTemplate } from 'src/utils/firebase/templates';
+import { useTemplates } from 'src/utils/hooks/useTemplates';
+import { templateFormContentState } from 'src/utils/recoil/atoms';
 
 type TemplateFormModalProps = {
-  templateId?: string;
-  value?: string;
   open: boolean;
   closeHandler: () => void;
 };
 
 export const TemplateFormModal: VFC<TemplateFormModalProps> = ({
-  templateId,
-  value = '',
   open,
   closeHandler,
 }) => {
-  const [inputText, setInputText] = useState(value);
+  const { refetch } = useTemplates();
+  const [formState, setFormState] = useRecoilState(templateFormContentState);
   const isValidate = useMemo(() => {
-    if (!inputText) return true;
-  }, [inputText]);
-
-  useEffect(() => {
-    setInputText(value);
-  }, [value]);
+    if (!formState.content) return true;
+  }, [formState]);
 
   /* 送信 */
   const submit = async () => {
     if (isValidate) return;
     try {
-      console.log('submit', inputText);
-      if (templateId) {
+      console.log('submit', formState);
+      if (formState.id) {
         /* 更新 */
+        await updateTemplate(formState);
+        refetch();
       }
-      if (!templateId) {
+      if (!formState.id) {
         /* 作成 */
+        await createTemplate(formState.content);
+        refetch();
       }
       closeHandler();
     } catch (error) {
@@ -43,7 +44,7 @@ export const TemplateFormModal: VFC<TemplateFormModalProps> = ({
 
   /* 入力内容を削除して閉じる */
   const close = () => {
-    setInputText('');
+    setFormState((prev) => ({ ...prev, content: '' }));
     closeHandler();
   };
 
@@ -56,12 +57,12 @@ export const TemplateFormModal: VFC<TemplateFormModalProps> = ({
       </Modal.Header>
       <Modal.Body>
         <Textarea
-          value={inputText}
+          value={formState.content}
           placeholder='投稿内容を入力'
           minRows={4}
           maxRows={10}
           onChange={(e): void => {
-            setInputText(e.target.value);
+            setFormState((prev) => ({ ...prev, content: e.target.value }));
           }}
         />
       </Modal.Body>

@@ -1,6 +1,19 @@
 import { atom } from 'recoil';
 
-export const newPostContentState = atom<Omit<Post, 'id' | 'date'>>({
+/* Template */
+export const templatesState = atom<Template[]>({
+  key: 'templatesState',
+  default: [],
+});
+
+/* Achievements */
+export const achievementsState = atom<Achievement[]>({
+  key: 'achievementsState',
+  default: [],
+});
+
+/* Formの状態 */
+export const newPostContentState = atom<Omit<Achievement, 'id' | 'date'>>({
   key: 'newPostContentState',
   default: {
     content: '',

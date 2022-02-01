@@ -4,7 +4,7 @@ type Template = {
   updated: string;
 };
 
-type Post = {
+type Achievement = {
   id: string;
   content: string;
   achievementRate: number; // 達成度0-4

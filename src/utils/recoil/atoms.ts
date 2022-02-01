@@ -1,5 +1,15 @@
 import { atom } from 'recoil';
 
+/* User Settings */
+export const userSettingsState = atom<UserSettings>({
+  key: 'userSettingsState',
+  default: {
+    id: '',
+    name: '',
+    isConnectedOuraRing: false,
+  },
+});
+
 /* Template */
 export const templatesState = atom<Template[]>({
   key: 'templatesState',

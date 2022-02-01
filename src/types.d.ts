@@ -14,6 +14,7 @@ type Achievement = {
 };
 
 type UserSettings = {
+  id: string;
   name: string;
-  isConnectedOuraRing: string;
+  isConnectedOuraRing: boolean;
 };

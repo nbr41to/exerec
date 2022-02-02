@@ -18,7 +18,7 @@ export const useAuth = () => {
         setLoginUser({ id: user.uid, isLoading: false });
       }
     });
-  }, [router, setLoginUser]);
+  }, [setLoginUser]);
 
   return loginUser;
 };

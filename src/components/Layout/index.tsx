@@ -1,6 +1,7 @@
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { auth } from 'src/utils/firebase';
 import { useAuth } from 'src/utils/hooks/useAuth';
 
 export const Layout: FC = ({ children }) => {
@@ -17,6 +18,7 @@ export const Layout: FC = ({ children }) => {
           <Button onClick={() => router.push('/')}>Home</Button>
           <Button onClick={() => router.push('/calendar')}>Calendar</Button>
           <Button onClick={() => router.push('/setting')}>Setting</Button>
+          <Button onClick={() => auth.signOut()}>X</Button>
         </Button.Group>
       </div>
     </div>

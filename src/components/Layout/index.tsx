@@ -1,11 +1,13 @@
 import { Button } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { useAuth } from 'src/utils/hooks/useAuth';
 
 export const Layout: FC = ({ children }) => {
   const router = useRouter();
+  useAuth();
   return (
-    <div className='min-h-screen'>
+    <div className='min-h-screen pb-12'>
       <header className='w-full bg-rose-600 text-center'>
         <div className='text-white text-3xl py-2 font-bold'>exe-rec</div>
       </header>

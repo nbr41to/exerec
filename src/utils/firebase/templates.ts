@@ -1,4 +1,4 @@
-import { db } from '.';
+import { auth, db } from '.';
 import {
   addDoc,
   collection,
@@ -10,12 +10,16 @@ import {
 } from 'firebase/firestore';
 import { dateFormatted } from '../dateFormatted';
 
-const templatesRef = collection(db, 'templates');
+/* SubCollectionRef */
+const templatesRef = (userId: string) =>
+  collection(db, 'users', userId, 'templates');
 
 /* Templateを作成 */
 export const createTemplate = async (content: string) => {
+  const userId = auth.currentUser?.uid;
+  if (!userId) return;
   try {
-    await addDoc(templatesRef, {
+    await addDoc(templatesRef(userId), {
       content,
       updated: dateFormatted(),
     });
@@ -26,9 +30,12 @@ export const createTemplate = async (content: string) => {
 
 /* Templateを更新 */
 export const updateTemplate = async (params: Template) => {
+  const userId = auth.currentUser?.uid;
+  if (!userId) return;
   const { id, content } = params;
+
   try {
-    await updateDoc(doc(templatesRef, id), {
+    await updateDoc(doc(templatesRef(userId), id), {
       content,
       updated: dateFormatted(),
     });
@@ -39,7 +46,9 @@ export const updateTemplate = async (params: Template) => {
 
 /* Template一覧を取得 */
 export const getTemplates = async () => {
-  const q = query(templatesRef, orderBy('updated'));
+  const userId = auth.currentUser?.uid;
+  if (!userId) return [];
+  const q = query(templatesRef(userId), orderBy('updated'));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(
     (doc) =>

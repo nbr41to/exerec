@@ -1,4 +1,4 @@
-import { db } from '.';
+import { auth, db } from '.';
 import {
   addDoc,
   collection,
@@ -9,14 +9,17 @@ import {
 } from 'firebase/firestore';
 import { dateFormatted } from '../dateFormatted';
 
-const achievementRef = collection(db, 'achievements');
+const achievementRef = (userId: string) =>
+  collection(db, 'users', userId, 'achievements');
 
 /* Templateを作成 */
 export const createAchievement = async (
   params: Omit<Achievement, 'id' | 'date'>,
 ) => {
+  const userId = auth.currentUser?.uid;
+  if (!userId) return;
   try {
-    await addDoc(achievementRef, {
+    await addDoc(achievementRef(userId), {
       ...params,
       date: dateFormatted(),
     });
@@ -27,7 +30,10 @@ export const createAchievement = async (
 
 /* 履歴を10件取得 */
 export const getAchievements = async () => {
-  const q = query(achievementRef, orderBy('date'), limit(10));
+  const userId = auth.currentUser?.uid;
+  if (!userId) return [];
+
+  const q = query(achievementRef(userId), orderBy('date'), limit(10));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(
     (doc) =>
@@ -40,7 +46,10 @@ export const getAchievements = async () => {
 
 /* 履歴を全て取得 */
 export const getAllAchievements = async () => {
-  const snapshot = await getDocs(achievementRef);
+  const userId = auth.currentUser?.uid;
+  if (!userId) return [];
+
+  const snapshot = await getDocs(achievementRef(userId));
   return snapshot.docs.map(
     (doc) =>
       ({

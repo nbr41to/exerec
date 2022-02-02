@@ -1,5 +1,14 @@
 import { atom } from 'recoil';
 
+/* Login User */
+export const loginUserState = atom<LoginUser>({
+  key: 'loginUser',
+  default: {
+    id: null, // null: not logged in
+    isLoading: false,
+  },
+});
+
 /* User Settings */
 export const userSettingsState = atom<UserSettings>({
   key: 'userSettingsState',
@@ -21,11 +30,13 @@ export const achievementsState = atom<Achievement[]>({
   key: 'achievementsState',
   default: [],
 });
+export const achievementsHistoriesState = atom<Achievement[]>({
+  key: 'achievementsHistoriesState',
+  default: [],
+});
 
 /* Formの状態 */
-export const newPostContentState = atom<
-  Omit<Achievement, 'id' | 'userId' | 'date'>
->({
+export const newPostContentState = atom<Omit<Achievement, 'id' | 'date'>>({
   key: 'newPostContentState',
   default: {
     content: '',

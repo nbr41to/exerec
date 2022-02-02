@@ -15,11 +15,9 @@ export const HomePage: VFC = () => {
   const [visibleCreateTemplateModal, setVisibleCreateTemplateModal] =
     useState(false);
   const { templates } = useTemplates();
-  const { achievements } = useAchievementsHistories();
+  const { achievementsHistories } = useAchievementsHistories();
   const setNewPostState = useSetRecoilState(newPostContentState);
   const setTemplateFormState = useSetRecoilState(templateFormContentState);
-
-  console.log('templates', templates);
 
   return (
     <>
@@ -117,7 +115,7 @@ export const HomePage: VFC = () => {
         </div>
         <div className='p-4 space-y-3'>
           <div className='p-4 space-y-3'>
-            {achievements.map((achievement) => (
+            {achievementsHistories.map((achievement) => (
               <Collapse
                 bordered
                 key={achievement.id}

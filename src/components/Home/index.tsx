@@ -1,4 +1,4 @@
-import { Button, Card, Collapse, Text } from '@nextui-org/react';
+import { Button, Collapse, Text } from '@nextui-org/react';
 import { useState, VFC } from 'react';
 import { TemplateFormModal } from './TemplateFormModal';
 import { NewPostModal } from './NewPostModal';

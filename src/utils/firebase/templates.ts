@@ -48,7 +48,7 @@ export const updateTemplate = async (params: Template) => {
 export const getTemplates = async () => {
   const userId = auth.currentUser?.uid;
   if (!userId) return [];
-  const q = query(templatesRef(userId), orderBy('updated'));
+  const q = query(templatesRef(userId), orderBy('updated', 'desc'));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(
     (doc) =>

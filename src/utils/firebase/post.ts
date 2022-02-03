@@ -12,7 +12,7 @@ import { dateFormatted } from '../dateFormatted';
 const achievementRef = (userId: string) =>
   collection(db, 'users', userId, 'achievements');
 
-/* Templateを作成 */
+/* Doneを保存 */
 export const createAchievement = async (
   params: Omit<Achievement, 'id' | 'date'>,
 ) => {
@@ -33,7 +33,7 @@ export const getAchievements = async () => {
   const userId = auth.currentUser?.uid;
   if (!userId) return [];
 
-  const q = query(achievementRef(userId), orderBy('date'), limit(10));
+  const q = query(achievementRef(userId), orderBy('date', 'desc'), limit(10));
   const snapshot = await getDocs(q);
   return snapshot.docs.map(
     (doc) =>

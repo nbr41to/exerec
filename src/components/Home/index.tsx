@@ -1,4 +1,4 @@
-import { Button, Collapse, Text } from '@nextui-org/react';
+import { Button, Collapse, Link, Text } from '@nextui-org/react';
 import { useState, VFC } from 'react';
 import { TemplateFormModal } from './TemplateFormModal';
 import { NewPostModal } from './NewPostModal';
@@ -29,7 +29,16 @@ export const HomePage: VFC = () => {
         open={visibleCreateTemplateModal}
         closeHandler={() => setVisibleCreateTemplateModal(false)}
       />
-      <div>
+      <div className='relative'>
+        <div className='absolute top-0 right-3 inline-block text-sm'>
+          <Link
+            href='https://github.com/nbr41to/exerec/blob/main/README.md'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            使い方
+          </Link>
+        </div>
         <div className='text-center mt-3'>
           <Text h1 b size={18}>
             今日の運動を記録

@@ -110,7 +110,7 @@ export const HomePage: VFC = () => {
         {/* 達成履歴10件 */}
         <div className='text-center'>
           <Text h2 b>
-            My Histories
+            My Histories（最新10件）
           </Text>
         </div>
         <div className='p-4 space-y-3'>

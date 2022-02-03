@@ -15,7 +15,7 @@ type Achievement = {
 type UserSettings = {
   id: string;
   name: string;
-  isConnectedOuraRing: boolean;
+  ouraPersonalAccessToken: string | null;
 };
 
 type LoginUser = {

@@ -15,7 +15,7 @@ export const userSettingsState = atom<UserSettings>({
   default: {
     id: '',
     name: '',
-    isConnectedOuraRing: false,
+    ouraPersonalAccessToken: null,
   },
 });
 
@@ -52,4 +52,10 @@ export const templateFormContentState = atom<Template>({
     content: '',
     updated: '',
   },
+});
+
+/* Oura Activities */
+export const ouraActivitiesState = atom<null | any[]>({
+  key: 'ouraActivitiesState',
+  default: null,
 });

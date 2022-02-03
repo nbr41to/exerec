@@ -27,7 +27,7 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
   const submit = async () => {
     if (isValidate) return;
     try {
-      console.log('submit', formState.content);
+      // console.log('submit', formState.content);
       createAchievement(formState);
       setVisibleShareButtons(true);
       refetch();

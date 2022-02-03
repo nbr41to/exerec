@@ -25,7 +25,7 @@ export const TemplateFormModal: VFC<TemplateFormModalProps> = ({
   const submit = async () => {
     if (isValidate) return;
     try {
-      console.log('submit', formState);
+      // console.log('submit', formState);
       if (formState.id) {
         /* 更新 */
         await updateTemplate(formState);

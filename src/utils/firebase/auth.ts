@@ -19,12 +19,12 @@ export const googleLogin = async () => {
       /* 新規の場合ユーザデータの作成 */
       await setDoc(userDoc(user.uid), {
         name: user.displayName,
-        isConnectedOuraRing: false,
+        ouraPersonalAccessToken: null,
       });
       return {
         id: user.uid,
         name: user.displayName,
-        isConnectedOuraRing: false,
+        ouraPersonalAccessToken: null,
       };
     }
   } catch (error) {

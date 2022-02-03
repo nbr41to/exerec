@@ -1,10 +1,11 @@
+import { useAuth } from 'src/utils/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { auth } from '../firebase';
 import { getUserSettings } from '../firebase/user';
 import { userSettingsState } from '../recoil/atoms';
 
 export const useUserSettings = () => {
+  const user = useAuth();
   const [userSettings, setUserSettings] = useRecoilState(userSettingsState);
   const [i, set] = useState(0);
   const refetch = () => {
@@ -13,13 +14,11 @@ export const useUserSettings = () => {
 
   useEffect(() => {
     void (async () => {
-      const userId = auth.currentUser?.uid;
-      if (!userId) return;
-      const response = await getUserSettings(userId);
+      const response = await getUserSettings();
       if (!response) return;
       setUserSettings(response);
     })();
-  }, [setUserSettings, i]);
+  }, [user, setUserSettings, i]);
 
   return { userSettings, refetch };
 };

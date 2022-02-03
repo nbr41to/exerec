@@ -64,10 +64,11 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
       <Modal.Body>
         <Textarea
           value={formState.content}
-          disabled={visibleShareButtons}
+          // disabled={visibleShareButtons} // TODO) Safariでは文字色と背景色が同色になる？
           placeholder={`腕立て30回\n腹筋30回\n背筋20回\n3セット`}
           minRows={4}
           maxRows={10}
+          size='lg'
           onChange={(e): void => {
             setFormState((prev) => ({ ...prev, content: e.target.value }));
           }}

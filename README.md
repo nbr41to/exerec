@@ -6,6 +6,8 @@
 
 そのついでに運動の記録を貯めることもできる
 
+https://exerec.vercel.app/
+
 ## 使い方/機能
 
 - Google でアカウント登録

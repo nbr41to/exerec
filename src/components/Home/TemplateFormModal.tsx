@@ -61,6 +61,7 @@ export const TemplateFormModal: VFC<TemplateFormModalProps> = ({
           placeholder='投稿内容を入力'
           minRows={4}
           maxRows={10}
+          size='lg'
           onChange={(e): void => {
             setFormState((prev) => ({ ...prev, content: e.target.value }));
           }}

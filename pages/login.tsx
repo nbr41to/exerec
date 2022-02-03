@@ -17,8 +17,16 @@ const Setting: NextPage = () => {
 
   return (
     <div>
-      <h2 className='text-center'>運動習慣をサポート</h2>
-      <div>
+      <h2 className='text-center font-bold py-3'>
+        運動習慣をサポートするアプリ
+      </h2>
+      <ul className='pl-10 list-disc'>
+        <li>日々の運動を記録</li>
+        <li>運動内容をテンプレート化</li>
+        <li>運動内容のSNSへの投稿を円滑に</li>
+        <li>Oura Ring と連携</li>
+      </ul>
+      <div className='flex justify-center items-center mt-10'>
         <Button onClick={login}>Googleアカウントでログイン</Button>
       </div>
     </div>

@@ -22,6 +22,13 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
   const isValidate = useMemo(() => {
     if (!formState.content) return true;
   }, [formState.content]);
+  const tweetContent = useMemo(() => {
+    if (!formState?.content) return '';
+    return `今日の運動記録%0a%0a${formState.content.replaceAll(
+      '\n',
+      '%0a',
+    )}%0a%0a`;
+  }, [formState.content]);
 
   /* 送信 */
   const submit = async () => {
@@ -41,6 +48,10 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
     setFormState((prev) => ({ ...prev, content: '' }));
     setVisibleShareButtons(false);
     closeHandler();
+  };
+
+  const copyContent = () => {
+    navigator.clipboard.writeText(formState.content);
   };
 
   return (
@@ -74,7 +85,7 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
             </Radio>
           </Radio.Group>
         </div>
-        <div className='flex justify-center items-center'>
+        {/* <div className='flex justify-center items-center'>
           <Radio.Group value='1' row disabled={visibleShareButtons}>
             <Radio value='1' size='sm'>
               達成
@@ -86,15 +97,31 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
               未完
             </Radio>
           </Radio.Group>
-        </div>
+        </div> */}
       </Modal.Body>
       <Modal.Footer justify='center'>
         {visibleShareButtons ? (
-          <div>
-            <Button.Group color='success'>
-              <Button>LINE</Button>
-              <Button>Twitter</Button>
-              <Button>Copy</Button>
+          <div className='relative'>
+            <Button.Group color='success' bordered>
+              <Button
+                onClick={() => {
+                  copyContent();
+                  window.location.href = 'https://line.me/R/nv/chat';
+                }}
+              >
+                LINE
+              </Button>
+              <Button>
+                <a
+                  className='block w-full h-full'
+                  href={`https://twitter.com/intent/tweet?text=${tweetContent}&url=https://exerec.vercel.app/`}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  Twitter
+                </a>
+              </Button>
+              <Button onClick={copyContent}>Copy</Button>
             </Button.Group>
             <p className='text-center my-2 text-sm'>
               保存しました。以下からシェアできます。

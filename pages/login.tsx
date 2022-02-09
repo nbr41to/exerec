@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Text } from '@nextui-org/react';
+import { Button, Card, Col, Row, Text, Link } from '@nextui-org/react';
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -23,13 +23,23 @@ const Setting: NextPage = () => {
       <h2 className='text-center font-bold py-3'>
         運動習慣をサポートするアプリ
       </h2>
+      <h3 className='font-bold pl-4'>できること</h3>
       <ul className='pl-10 list-disc'>
         <li>日々の運動を記録</li>
-        <li>運動内容をテンプレート化</li>
-        <li>運動内容のSNSへの投稿を円滑に</li>
-        <li>Oura Ring と連携</li>
+        <li>運動の継続をカレンダーで可視化</li>
+        <li>運動内容をテンプレート化しコピーできる</li>
+        <li>コピーした運動内容のSNS投稿を円滑に</li>
+        <li>Oura Ring と連携して1週間の運動量を確認</li>
       </ul>
-
+      <div className='text-center mt-4'>
+        <Link
+          href='https://github.com/nbr41to/exerec/blob/main/README.md'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          使い方
+        </Link>
+      </div>
       <div className='p-6'>
         <Card cover css={{ w: '100%', p: 0 }}>
           <Card.Header css={{ position: 'absolute', zIndex: 1, top: 5 }}>

@@ -56,7 +56,11 @@ export const SettingPage: VFC = () => {
         }
       />
       <p>
-        <Link href='https://cloud.ouraring.com/personal-access-tokens'>
+        <Link
+          href='https://cloud.ouraring.com/personal-access-tokens'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
           OURA RING 設定方法
         </Link>
       </p>

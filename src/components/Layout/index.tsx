@@ -7,7 +7,7 @@ export const Layout: FC = ({ children }) => {
   const router = useRouter();
   const user = useAuth();
   return (
-    <div className='min-h-screen pb-12'>
+    <div className='min-h-screen pb-20'>
       <header className='w-full bg-rose-600 text-center'>
         <div className='text-white text-3xl py-2 font-bold'>exe-rec</div>
       </header>

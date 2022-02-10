@@ -2,8 +2,7 @@ import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-// import { auth } from 'src/utils/firebase';
-import { CautionLoginModal } from './CommonModal/cautionLoginModal';
+import { CautionLoginModal } from './CommonModal/CautionLoginModal';
 
 export const Layout: FC = ({ children }) => {
   const router = useRouter();

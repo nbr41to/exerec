@@ -1,5 +1,5 @@
 import { Button, Modal } from '@nextui-org/react';
-import { memo, useEffect, VFC } from 'react';
+import { memo, VFC } from 'react';
 import { googleLogin } from 'src/utils/firebase/auth';
 import { useCommonModal } from 'src/utils/hooks/useCommonModal';
 

@@ -1,3 +1,4 @@
+import { Button } from '@nextui-org/react';
 import { useMemo, useState, VFC } from 'react';
 import { useAllAchievements } from 'src/utils/hooks/useAllAchievements';
 
@@ -41,13 +42,42 @@ export const ActivitiesCalendar: VFC = () => {
   const isDoneDate = (date: number): boolean =>
     currentMonthAchievementDate.includes(date);
 
+  /* 翌月へ */
+  const nextMonth = () => {
+    if (targetingDate.month === 12) {
+      setTargetingDate({
+        year: targetingDate.year + 1,
+        month: 1,
+      });
+    } else {
+      setTargetingDate({
+        year: targetingDate.year,
+        month: targetingDate.month + 1,
+      });
+    }
+  };
+  /* 先月へ */
+  const prevMonth = () => {
+    if (targetingDate.month === 1) {
+      setTargetingDate({
+        year: targetingDate.year - 1,
+        month: 12,
+      });
+    } else {
+      setTargetingDate({
+        year: targetingDate.year,
+        month: targetingDate.month - 1,
+      });
+    }
+  };
+
   return (
     <div>
-      <div className='text-center font-bold py-2'>
-        {targetingDate.month}月の取り組んだ日付け
+      <div className='text-center text-lg font-bold mt-4'>
+        {targetingDate.month}月
       </div>
       <div className='overflow-x-scroll'>
-        <div className='my-4 mx-auto w-[272px] flex items-center flex-wrap gap-2'>
+        <div className='my-4 mx-auto w-[272px] h-[192px] flex content-start flex-wrap gap-2'>
           {currentCalender.map((day, index) => (
             <div
               key={index + day}
@@ -58,6 +88,14 @@ export const ActivitiesCalendar: VFC = () => {
               {day}
             </div>
           ))}
+        </div>
+        <div className='flex justify-between items-center mx-auto w-[272px]'>
+          <Button size='xs' color='error' onClick={prevMonth}>
+            &lt;&lt; 前の月
+          </Button>
+          <Button size='xs' color='error' onClick={nextMonth}>
+            次の月 &gt;&gt;
+          </Button>
         </div>
       </div>
     </div>

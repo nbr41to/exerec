@@ -2,7 +2,7 @@ import { Button } from '@nextui-org/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { auth } from 'src/utils/firebase';
+// import { auth } from 'src/utils/firebase';
 import { CautionLoginModal } from './CommonModal/cautionLoginModal';
 
 export const Layout: FC = ({ children }) => {
@@ -21,7 +21,7 @@ export const Layout: FC = ({ children }) => {
             <Button onClick={() => router.push('/home')}>Home</Button>
             <Button onClick={() => router.push('/calendar')}>Calendar</Button>
             <Button onClick={() => router.push('/setting')}>Setting</Button>
-            <Button onClick={() => auth.signOut()}>X</Button>
+            {/* <Button onClick={() => auth.signOut()}>X</Button> */}
           </Button.Group>
         </div>
       </div>

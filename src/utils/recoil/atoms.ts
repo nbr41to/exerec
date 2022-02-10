@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { _achievements, _templates, _user_settings } from 'src/__mocks__/data';
 
 /* Login User */
 export const loginUserState = atom<LoginUser>({
@@ -12,27 +13,23 @@ export const loginUserState = atom<LoginUser>({
 /* User Settings */
 export const userSettingsState = atom<UserSettings>({
   key: 'userSettingsState',
-  default: {
-    id: '',
-    name: '',
-    ouraPersonalAccessToken: null,
-  },
+  default: _user_settings,
 });
 
 /* Template */
 export const templatesState = atom<Template[]>({
   key: 'templatesState',
-  default: [],
+  default: _templates,
 });
 
 /* Achievements */
 export const achievementsState = atom<Achievement[]>({
   key: 'achievementsState',
-  default: [],
+  default: _achievements,
 });
 export const achievementsHistoriesState = atom<Achievement[]>({
   key: 'achievementsHistoriesState',
-  default: [],
+  default: _achievements,
 });
 
 /* Formの状態 */
@@ -58,4 +55,12 @@ export const templateFormContentState = atom<Template>({
 export const ouraActivitiesState = atom<null | any[]>({
   key: 'ouraActivitiesState',
   default: null,
+});
+
+/* 全画面共通Modalの状態l */
+export const commonModalState = atom<{ cautionLogin: boolean }>({
+  key: 'commonModalState',
+  default: {
+    cautionLogin: false,
+  },
 });

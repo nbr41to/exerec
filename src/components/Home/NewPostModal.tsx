@@ -4,6 +4,8 @@ import { useState, VFC } from 'react';
 import { useRecoilState } from 'recoil';
 import { createAchievement } from 'src/utils/firebase/post';
 import { useAchievementsHistories } from 'src/utils/hooks/useAchievementsHistories';
+import { useAuth } from 'src/utils/hooks/useAuth';
+import { useCommonModal } from 'src/utils/hooks/useCommonModal';
 import { newPostContentState } from 'src/utils/recoil/atoms';
 
 type NewPostModalProps = {
@@ -17,6 +19,9 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
 }) => {
   const { refetch } = useAchievementsHistories();
   const [formState, setFormState] = useRecoilState(newPostContentState);
+
+  const auth = useAuth();
+  const { commonModal, setCommonModal } = useCommonModal();
 
   const [visibleShareButtons, setVisibleShareButtons] = useState(false);
   const isValidate = useMemo(() => {
@@ -33,6 +38,12 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
   /* 送信 */
   const submit = async () => {
     if (isValidate) return;
+    if (!auth.id) {
+      /* ログインしていない場合はログイン誘導のModalを開く */
+      closeHandler();
+      setCommonModal({ ...commonModal, cautionLogin: true });
+      return;
+    }
     try {
       // console.log('submit', formState.content);
       createAchievement(formState);
@@ -101,34 +112,38 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
         </div> */}
       </Modal.Body>
       <Modal.Footer justify='center'>
-        {visibleShareButtons ? (
-          <div className='relative'>
-            <Button.Group color='success' bordered>
-              <Button
-                onClick={() => {
-                  copyContent();
-                  window.location.href = 'https://line.me/R/nv/chat';
-                }}
-              >
-                LINE
-              </Button>
-              <Button>
-                <a
-                  className='block w-full h-full'
-                  href={`https://twitter.com/intent/tweet?text=${tweetContent}&url=https://exerec.vercel.app/`}
-                  target='_blank'
-                  rel='noopener noreferrer'
+        {/* ログインしていない場合 or ログインしていて保存した後 に表示 */}
+        {visibleShareButtons ||
+          (!auth.id && (
+            <div className='relative'>
+              <Button.Group color='success' bordered>
+                <Button
+                  onClick={() => {
+                    copyContent();
+                    window.location.href = 'https://line.me/R/nv/chat';
+                  }}
                 >
-                  Twitter
-                </a>
-              </Button>
-              <Button onClick={copyContent}>Copy</Button>
-            </Button.Group>
-            <p className='text-center my-2 text-sm'>
-              保存しました。以下からシェアできます。
-            </p>
-          </div>
-        ) : (
+                  LINE
+                </Button>
+                <Button>
+                  <a
+                    className='block w-full h-full'
+                    href={`https://twitter.com/intent/tweet?text=${tweetContent}&url=https://exerec.vercel.app/`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    Twitter
+                  </a>
+                </Button>
+                <Button onClick={copyContent}>Copy</Button>
+              </Button.Group>
+              <p className='text-center my-2 text-sm'>
+                保存しました。以下からシェアできます。
+              </p>
+            </div>
+          ))}
+        {/* ログインしていない場合 or ログインしていて保存する前 に表示 */}
+        {!visibleShareButtons && !auth.id && (
           <Button auto disabled={isValidate} color='success' onClick={submit}>
             保存
           </Button>

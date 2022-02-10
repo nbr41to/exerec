@@ -12,7 +12,7 @@ export const useAuth = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (!user) {
-        router.push('/login');
+        // router.push('/'); // ログインページにリダイレクト
       }
       if (user) {
         setLoginUser({ id: user.uid, isLoading: false });

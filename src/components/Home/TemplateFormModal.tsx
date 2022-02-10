@@ -3,6 +3,8 @@ import { useEffect, useMemo } from 'react';
 import { VFC } from 'react';
 import { useRecoilState } from 'recoil';
 import { createTemplate, updateTemplate } from 'src/utils/firebase/templates';
+import { useAuth } from 'src/utils/hooks/useAuth';
+import { useCommonModal } from 'src/utils/hooks/useCommonModal';
 import { useTemplates } from 'src/utils/hooks/useTemplates';
 import { templateFormContentState } from 'src/utils/recoil/atoms';
 
@@ -21,9 +23,18 @@ export const TemplateFormModal: VFC<TemplateFormModalProps> = ({
     if (!formState.content) return true;
   }, [formState]);
 
+  const auth = useAuth();
+  const { commonModal, setCommonModal } = useCommonModal();
+
   /* 送信 */
   const submit = async () => {
     if (isValidate) return;
+    if (!auth.id) {
+      /* ログインしていない場合はログイン誘導のModalを開く */
+      closeHandler();
+      setCommonModal({ ...commonModal, cautionLogin: true });
+      return;
+    }
     try {
       // console.log('submit', formState);
       if (formState.id) {

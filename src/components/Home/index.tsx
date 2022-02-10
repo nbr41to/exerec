@@ -149,6 +149,7 @@ export const HomePage: VFC = () => {
                     bordered
                     color='primary'
                     size='sm'
+                    auto
                     onClick={() => {
                       setTemplateFormState((prev) => ({
                         ...prev,

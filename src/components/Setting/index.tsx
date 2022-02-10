@@ -1,12 +1,16 @@
 import { Button, Input, Link, Text } from '@nextui-org/react';
 import { useEffect, useMemo, useState, VFC } from 'react';
 import { updateUserSettings } from 'src/utils/firebase/user';
+import { useAuth } from 'src/utils/hooks/useAuth';
+import { useCommonModal } from 'src/utils/hooks/useCommonModal';
 import { useUserSettings } from 'src/utils/hooks/useUserSettings';
 
 export const SettingPage: VFC = () => {
   const { userSettings, refetch } = useUserSettings();
   const [isLoading, setIsLoading] = useState(false);
   const [formState, setFormState] = useState(userSettings);
+  const auth = useAuth();
+  const { commonModal, setCommonModal } = useCommonModal();
 
   useEffect(() => {
     setFormState(userSettings);
@@ -14,13 +18,18 @@ export const SettingPage: VFC = () => {
 
   const isChanged = useMemo(() => {
     return (
-      formState.name !== userSettings.name ||
+      (formState.name !== userSettings.name && !!formState.name) ||
       formState.ouraPersonalAccessToken !== userSettings.ouraPersonalAccessToken
     );
   }, [formState, userSettings]);
 
   const submit = async () => {
     if (!formState.name) return;
+    if (!auth.id) {
+      /* ログインしていない場合はログイン誘導のModalを開く */
+      setCommonModal({ ...commonModal, cautionLogin: true });
+      return;
+    }
     try {
       setIsLoading(true);
       await updateUserSettings(formState);

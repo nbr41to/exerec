@@ -18,7 +18,7 @@ export const OuraActivities: VFC = () => {
 
   return (
     <div>
-      <h3 className='text-center font-bold  py-4'>
+      <h3 className='text-center text-lg font-bold  py-4'>
         Oura Ring による運動量(Calories)
       </h3>
       {userSettings.ouraPersonalAccessToken ? (

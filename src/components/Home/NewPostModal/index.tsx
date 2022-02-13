@@ -7,6 +7,7 @@ import { useAchievementsHistories } from 'src/utils/hooks/useAchievementsHistori
 import { useAuth } from 'src/utils/hooks/useAuth';
 import { useCommonModal } from 'src/utils/hooks/useCommonModal';
 import { newPostContentState } from 'src/utils/recoil/atoms';
+import { ShareButtons } from './ShareButtons';
 
 type NewPostModalProps = {
   open: boolean;
@@ -26,13 +27,6 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
   const [visibleShareButtons, setVisibleShareButtons] = useState(false);
   const isValidate = useMemo(() => {
     if (!formState.content) return true;
-  }, [formState.content]);
-  const tweetContent = useMemo(() => {
-    if (!formState?.content) return '';
-    return `今日の運動記録%0a%0a${formState.content.replaceAll(
-      '\n',
-      '%0a',
-    )}%0a%0a`;
   }, [formState.content]);
 
   /* 送信 */
@@ -59,10 +53,6 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
     setFormState((prev) => ({ ...prev, content: '' }));
     setVisibleShareButtons(false);
     closeHandler();
-  };
-
-  const copyContent = () => {
-    navigator.clipboard.writeText(formState.content);
   };
 
   return (
@@ -112,45 +102,45 @@ export const NewPostModal: VFC<NewPostModalProps> = ({
         </div> */}
       </Modal.Body>
       <Modal.Footer justify='center'>
-        {/* ログインしていない場合 or ログインしていて保存した後 に表示 */}
-        {visibleShareButtons ||
-          (!auth.id && (
+        {auth.id ? (
+          <>
+            {/* ログインしている場合 */}
+            {visibleShareButtons && (
+              <div className='relative'>
+                <ShareButtons shareContent={formState.content} />
+                <p className='text-center my-2 text-sm'>
+                  保存しました。以下からシェアできます。
+                </p>
+              </div>
+            )}
+            {!visibleShareButtons && (
+              <Button
+                auto
+                disabled={isValidate}
+                color='success'
+                onClick={submit}
+              >
+                保存
+              </Button>
+            )}
+            <Button auto flat color='error' onClick={close}>
+              {visibleShareButtons ? 'Close' : 'Cancel'}
+            </Button>
+          </>
+        ) : (
+          <>
+            {/* ログインしていない場合 */}
             <div className='relative'>
-              <Button.Group color='success' bordered>
-                <Button
-                  onClick={() => {
-                    copyContent();
-                    window.location.href = 'https://line.me/R/nv/chat';
-                  }}
-                >
-                  LINE
-                </Button>
-                <Button>
-                  <a
-                    className='block w-full h-full'
-                    href={`https://twitter.com/intent/tweet?text=${tweetContent}&url=https://exerec.vercel.app/`}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                  >
-                    Twitter
-                  </a>
-                </Button>
-                <Button onClick={copyContent}>Copy</Button>
-              </Button.Group>
-              <p className='text-center my-2 text-sm'>
-                保存しました。以下からシェアできます。
-              </p>
+              <ShareButtons shareContent={formState.content} />
             </div>
-          ))}
-        {/* ログインしていない場合 or ログインしていて保存する前 に表示 */}
-        {!visibleShareButtons && !auth.id && (
-          <Button auto disabled={isValidate} color='success' onClick={submit}>
-            保存
-          </Button>
+            <Button auto disabled={isValidate} color='success' onClick={submit}>
+              保存
+            </Button>
+            <Button auto flat color='error' onClick={close}>
+              Cancel
+            </Button>
+          </>
         )}
-        <Button auto flat color='error' onClick={close}>
-          {visibleShareButtons ? 'Close' : 'Cancel'}
-        </Button>
       </Modal.Footer>
     </Modal>
   );
